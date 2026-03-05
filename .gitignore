@@ -86,3 +86,15 @@ automation/logs/
 *.txt
 *.ps1
 .claude/
+
+# Audio / voice model files
+automation/voz_model/audio_personaje/
+automation/voz_model/processed_audio/
+*.mp3
+*.wav
+
+# Debug / generated files
+models_generated.py
+models_inspected.py
+diagnostic_urls.py
+test_path_*.py
