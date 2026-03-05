@@ -1,0 +1,69 @@
+# ==============================================
+# AUTOMATION SYSTEM - DOCKER COMPOSE
+# Lee configuracion de .env automaticamente
+# ==============================================
+
+services:
+  scheduler:
+    build: .
+    container_name: automation_scheduler
+    restart: unless-stopped
+    command: python scheduler.py
+    env_file:
+      - .env
+    environment:
+      # Rutas dentro del contenedor (sobreescriben .env)
+      AUTOMATION_DIR: /app
+      SCRIPTS_DIR: /app/scripts
+      CONFIG_DIR: /app/config
+      LOGS_DIR: /app/logs
+    volumes:
+      - /mnt/repositorio:/mnt/repositorio:ro
+      - ./logs:/app/logs
+      - ./scripts:/app/scripts:ro
+      - ./config:/app/config:ro
+    depends_on:
+      - telegram_bot
+    networks:
+      - automation_net
+
+  telegram_bot:
+    build: .
+    container_name: automation_telegram_bot
+    restart: unless-stopped
+    command: python telegram_bot.py
+    env_file:
+      - .env
+    environment:
+      AUTOMATION_DIR: /app
+      SCRIPTS_DIR: /app/scripts
+      CONFIG_DIR: /app/config
+      LOGS_DIR: /app/logs
+    volumes:
+      - /mnt/repositorio:/mnt/repositorio:ro
+      - ./logs:/app/logs
+      - ./scripts:/app/scripts:ro
+      - ./config:/app/config:ro
+    networks:
+      - automation_net
+
+  db_cleaner:
+    build: .
+    container_name: automation_db_cleaner
+    restart: "no"
+    command: python db_cleaner.py
+    env_file:
+      - .env
+    environment:
+      AUTOMATION_DIR: /app
+      LOGS_DIR: /app/logs
+    volumes:
+      - ./logs:/app/logs
+    profiles:
+      - cleanup
+    networks:
+      - automation_net
+
+networks:
+  automation_net:
+    driver: bridge

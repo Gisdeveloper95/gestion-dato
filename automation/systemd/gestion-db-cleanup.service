@@ -1,0 +1,14 @@
+[Unit]
+Description=Automation Database Cleanup
+After=network.target
+
+[Service]
+Type=oneshot
+User=andres-osorio
+Group=andres-osorio
+WorkingDirectory=/home/andres-osorio/server_dato/automation
+EnvironmentFile=/home/andres-osorio/server_dato/automation/.env
+ExecStart=/home/andres-osorio/server_dato/automation/venv/bin/python /home/andres-osorio/server_dato/automation/db_cleaner.py --auto
+
+[Install]
+WantedBy=multi-user.target

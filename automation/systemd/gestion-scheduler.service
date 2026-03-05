@@ -1,0 +1,20 @@
+[Unit]
+Description=Automation Scheduler - Indexadores y Scripts
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+User=andres-osorio
+Group=andres-osorio
+WorkingDirectory=/home/andres-osorio/server_dato/automation
+Environment="PYTHONUNBUFFERED=1"
+EnvironmentFile=/home/andres-osorio/server_dato/automation/.env
+ExecStart=/home/andres-osorio/server_dato/automation/venv/bin/python /home/andres-osorio/server_dato/automation/scheduler.py
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

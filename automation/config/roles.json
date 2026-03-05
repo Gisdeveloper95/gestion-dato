@@ -1,0 +1,34 @@
+{
+    "roles": {
+        "admin": {
+            "description": "Administradores con acceso total",
+            "user_ids": [6067116882],
+            "comandos_permitidos": [
+                "status", "scripts", "proximos", "logs",
+                "iniciar", "detener", "restart",
+                "cleanup", "server", "docker",
+                "pregunta", "consulta", "municipio", "buscar"
+            ]
+        },
+        "operador": {
+            "description": "Operadores con acceso de solo lectura",
+            "user_ids": [],
+            "comandos_permitidos": [
+                "status", "scripts", "proximos", "logs",
+                "pregunta", "consulta", "municipio", "buscar"
+            ]
+        },
+        "usuario": {
+            "description": "Usuarios regulares solo consultas IA",
+            "user_ids": [],
+            "comandos_permitidos": [
+                "pregunta", "consulta", "municipio", "buscar"
+            ]
+        }
+    },
+    "default_role": "usuario",
+    "notas": {
+        "info": "Si user_ids está vacío en 'usuario', todos los usuarios del grupo tienen ese rol por defecto",
+        "como_agregar": "Agrega tu Telegram user_id a la lista correspondiente"
+    }
+}

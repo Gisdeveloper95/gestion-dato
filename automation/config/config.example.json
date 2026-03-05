@@ -1,0 +1,33 @@
+{
+    "scheduler": {
+        "post_insumos": {
+            "interval_hours": 6,
+            "schedule": ["00:00", "06:00", "12:00", "18:00"],
+            "scripts": [
+                "Script_POST_Linux.py",
+                "Script_INSUMOS_Linux.py"
+            ],
+            "estimated_duration": {
+                "Script_POST_Linux.py": 6,
+                "Script_INSUMOS_Linux.py": 25
+            }
+        },
+        "transversal_operacion": {
+            "interval_hours": 72,
+            "schedule": ["Monday 02:00"],
+            "scripts": [
+                "Script_TRANSVERSAL_Linux.py",
+                "Script_OPERACION_Linux.py"
+            ],
+            "estimated_duration": {
+                "Script_TRANSVERSAL_Linux.py": 5,
+                "Script_OPERACION_Linux.py": 420
+            },
+            "run_sequential": true
+        }
+    },
+    "cleanup": {
+        "tables": ["notificaciones", "telegram_logs"],
+        "schedule": "1st day of month at 03:00"
+    }
+}

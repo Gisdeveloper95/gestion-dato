@@ -1,0 +1,71 @@
+stages:
+  - build
+  - run
+
+build:
+  stage: build
+  tags:
+    - $PROD_RUNNER
+  environment:
+    name: production
+  script:
+    - git reset --hard
+    - echo "Iniciando build para Gestion Dato..."
+    - cp $PROD_DOCKER_COMPOSE ./docker-compose.yml
+    - cp $PROD_NGINX_SSL_CONF ./nginx/ssl.conf
+    - cp $PROD_ENV ./.env
+    - cp $PROD_ENV_BACKEND ./backend/.env
+    - echo "Copia docker-compose file"
+    # Si SKIP_BUILD está definido, solo copiar archivos sin reconstruir imágenes
+    - |
+      if [ "$SKIP_BUILD" = "true" ]; then
+        echo "⚠️ SKIP_BUILD activado - Actualizando archivos en contenedores existentes..."
+
+        # Copiar archivos backend al contenedor
+        docker cp ./backend/preoperacion/archivo_views.py igac_backend:/app/preoperacion/archivo_views.py || true
+        docker cp ./backend/preoperacion/pdf_views.py igac_backend:/app/preoperacion/pdf_views.py || true
+        docker cp ./backend/postoperacion/archivo_views.py igac_backend:/app/postoperacion/archivo_views.py || true
+
+        # Copiar frontend dist al contenedor
+        docker cp ./frontend/dist/. igac_frontend:/usr/share/nginx/html/ || true
+
+        echo "✅ Archivos copiados a contenedores existentes"
+      else
+        echo "🔨 Ejecutando build completo..."
+        docker compose --file docker-compose.yml build --no-cache
+      fi
+    - echo "Docker image build successfully"
+  only:
+    refs:
+      - linux-deployment
+
+deploy:
+  stage: run
+  tags:
+    - $PROD_RUNNER
+  environment:
+    name: production
+  script:
+    - echo "Iniciando deployment process for Gestion Dato..."
+    - cp $PROD_DOCKER_COMPOSE ./docker-compose.yml
+    - cp $PROD_NGINX_SSL_CONF ./nginx/ssl.conf
+    - cp $PROD_ENV ./.env
+    - cp $PROD_ENV_BACKEND ./backend/.env
+    # Si SKIP_BUILD está activado, solo reiniciar contenedores
+    - |
+      if [ "$SKIP_BUILD" = "true" ]; then
+        echo "⚠️ SKIP_BUILD activado - Solo reiniciando contenedores..."
+        docker restart igac_backend igac_frontend igac_nginx_proxy || true
+        sleep 10
+      else
+        docker system prune -af
+        docker compose down
+        sleep 15
+        docker ps -a
+        docker compose up -d
+      fi
+    - docker ps -a
+    - echo "✅ Deployment completado"
+  only:
+    refs:
+      - linux-deployment

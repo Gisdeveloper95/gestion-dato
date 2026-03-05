@@ -1,0 +1,24 @@
+
+# Instalar PyTorch (ajusta según tu sistema manualmente usando pip)
+# pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+#pip install torch torchaudio --index-url https://download.pytorch.org/whl/cpu
+#
+
+
+ Instalar Coqui TTS
+coqui-tts
+
+# Instalar Whisper para transcripción automática
+openai-whisper
+
+# Instalar librerías de audio
+librosa 
+soundfile
+
+# Instalar utilidades
+tqdm pathlib
+noisereduce 
+numpy 
+soundfile 
+tqdm
+demucs

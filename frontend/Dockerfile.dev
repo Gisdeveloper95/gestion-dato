@@ -1,0 +1,19 @@
+# Dockerfile de desarrollo para el frontend
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Copiar archivos de dependencias
+COPY package*.json ./
+
+# Instalar dependencias
+RUN npm ci --legacy-peer-deps
+
+# Copiar el código fuente
+COPY . .
+
+# Exponer puerto de desarrollo
+EXPOSE 5173
+
+# Comando para desarrollo con hot-reload
+CMD ["npm", "run", "dev"]

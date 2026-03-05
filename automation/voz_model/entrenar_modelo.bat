@@ -1,0 +1,6 @@
+@echo off
+echo 🚀 Iniciando entrenamiento de modelo de voz...
+echo ⏳ Este proceso puede tomar 1-3 horas...
+python -m TTS.bin.train_tts      --config_path config_entrenamiento.json      --coqpit.output_path mi_modelo_voz      --coqpit.datasets.0.path processed_audio
+echo ✅ Entrenamiento completado!
+pause
