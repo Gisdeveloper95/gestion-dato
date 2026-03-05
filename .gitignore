@@ -81,3 +81,8 @@ postgres_data/
 automation/*.lock
 automation/logs/
 *.log
+
+# Internal docs / notes
+*.txt
+*.ps1
+.claude/
