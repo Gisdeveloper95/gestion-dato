@@ -1,0 +1,83 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+*.log
+
+# Django
+db.sqlite3
+/staticfiles/
+/media/
+
+# Node
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Environment
+.env
+.env.local
+.env.production
+backend/.env
+backend/.env.*
+frontend/.env
+NETAPP_MOUNT.env
+automation/.env
+automation/vector_db/
+PROD_*.txt
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Backups & database dumps
+backups/
+copia_db/
+*.bak
+*.sql
+*.sql.gz
+
+# Docker
+*.tar.gz
+*.tar
+docker_images_export/
+docker-images/
+docker-compose.yml.backup
+
+# Build artifacts
+dist_produccion/
+
+# SSL certificates directory
+certificados_ssl_gestiondato/
+
+# Spreadsheets (data files)
+*.xlsm
+*.xlsx
+
+# Scripts de exportación de imágenes (no necesarios en repo)
+export_images.sh
+import_images.sh
+
+# Postgres data
+postgres_data/
+
+# Certificados SSL
+*.pem
+*.key
+*.crt
+*.cer
+
+# Logs y lock
+automation/*.lock
+automation/logs/
+*.log
